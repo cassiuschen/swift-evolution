@@ -1,0 +1,510 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Swift Evolution</title>
+
+        <meta name="description" content="A Basic Course for Web Developer">
+        <meta name="author" content="Cassius Chen">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="./css/reveal.css">
+        <link rel="stylesheet" href="./css/theme/black.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="./lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? './css/print/pdf.css' : './css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h2>Swift进化史</h2>
+                    <p> Get this via http://sliders.cassiuschen.com/swift-evolution</p>
+                </section>
+
+                <!-- Obj-C -->
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 从 Objective-C 说起
+
+                            苹果最早用于编写 OS X 及 iOS 系统软件的语言
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Objective-C
+
+                            - 来源于 C-Lang（ANSI C）与 Smalltalk
+                            <!-- .element: class="fragment" -->
+
+                            - 面向对象编程的程序语言
+                            <!-- .element: class="fragment" -->
+
+                            - 1980s 基于 C-Lang 写出，苹果后来创造了 LLVM 作为其编译前端处理，但最终编译仍然经过 GCC 或 CLang，使得其可以使用 C 的类库
+                            <!-- .element: class="fragment" -->
+
+                            - 没有命名空间机制（namespace mechanism），形成了冗长的前缀，如苹果的 NS
+                            <!-- .element: class="fragment" -->
+
+                            - 因其存在 Runtime 及其运行时的表现，可划归为动态语言
+                            <!-- .element: class="fragment" -->
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Objective-C 与面向对象
+
+                            SmallTalk：
+                            ```smalltalk
+                            2 + 3       #=> 2.(+).call(3)
+                            ```
+
+                            C++：
+                            <!-- .element: class="fragment" -->
+                            ```
+                            obj.method(argument);
+                            ```
+                            <!-- .element: class="fragment" -->
+
+                            Objective-C：
+                            <!-- .element: class="fragment" -->
+                            ```
+                            [obj method: argument];
+                            [car drive];
+                            
+                            // Objective-C 2.0
+                            [aPerson setName: @"Steve"];
+                            aPerson.name = @"Steve";
+                            ```
+                            <!-- .element: class="fragment" -->
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Objective-C 中的类
+
+                            `.h`文件负责定义
+                            ```
+                            @interface MyObject : NSObject {
+                                int memberVar1; // 实体变量
+                                id  memberVar2;
+                            }
+
+                            +(return_type) class_method; // 类方法
+
+                            -(return_type) instance_method1; // 实例方法
+                            -(return_type) instance_method2: (int) p1;
+                            -(return_type) instance_method3: (int) p1 andPar: (int) p2;
+                            @end
+                            ```
+                            
+                            `.m`文件负责实现
+                            ```
+                            class MyObject : public NSObject {
+                              protected:
+                                int memberVar1;  // 实体变量
+                                void * memberVar2;
+
+                              public:
+                                static return_type class_method(); // 類方法
+
+                                return_type instance_method1();    // 实例方法
+                                return_type instance_method2( int p1 );
+                                return_type instance_method3( int p1, int p2 );
+                            }
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Objective-C 中的协议（Protocol）
+
+                            ```
+                            @protocol Locking
+                              - (void)lock;
+                              - (void)unlock;
+                            @end
+                            ```
+
+                            ```
+                            @interface SomeClass : SomeSuperClass <Locking>
+                            @end
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Objective-C 中的坑
+
+                            - 动态类型造成的不便
+                            - 语法老旧繁琐、不易读
+                            - 扩展空间较小
+                            - 性能低下
+                            ……
+                        </script>
+                    </section>
+                </section>
+
+                <!-- transform -->
+                <section data-background="#CDDFDD">
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 寻求更现代的语言
+                            MacRuby 横空出世
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Laurent Sansonetti说……
+
+                            - Ruby 的语法足够优雅简洁
+                            - Ruby 有极大的用户群体
+                            - 已有很多基于 Ruby 的 Mac / iOS 开发工具
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # MacRuby 的问题
+
+                            - 性能问题
+                            - 不支持静态类型检测，对对大项目不友好
+                            - 完全脱胎于 Smalltalk 的 OOP 思路
+                            - Laurent Sansonetti 离职了 =。=
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 横空出世（2014）
+
+                            - 继续使用 LLVM 进行编译
+                            - 可与 Objective-C 共存
+                            - 更现代的语言特性（如类型推断等、函数升级为一类对象）及语法
+                            - 取消 Objective-C 的动态类型使用，加入 namespace
+                            - 开源！！！
+                        </script>
+                    </section>
+                    <section>
+                        <h1>Swift 的主要作用</h1>
+                        <img src="./keng.jpg" alt="" style="width:80%">
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 1.x 的改进
+
+                            Objective-C
+                            ```
+                            UITableView *myTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+                            ```
+
+                            Swift 1.x
+                            ```
+                            let myTableView: UITableView = UITableView(frame: CGRectZero, style: .Grouped)
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 1.x 的改进
+
+                            Objective-C
+                            ```
+                            UIColor *color = [UIColor colorWithRed:0.5 green:0.0 blue:0.5 alpha:1.0];
+                            ```
+
+                            Swift 1.x
+                            ```
+                            let color = UIColor(red: 0.5, green: 0.0, blue: 0.5, alpha: 1.0)
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 1.x 的改进
+
+                            句点表达式
+                            Swift 1.x
+                            ```
+                             textField.text = "I Love Ruby"
+                             textField.textColor = UIColor.darkGrayColor()
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 1.x 的改进
+
+                            Objective-C
+                            ```
+                            NSString *str = @"hello,"; 
+                            str = [str stringByAppendingString:@" world"];
+                            ```
+
+                            Swift 1.x
+                            ```
+                            var str = "hello,";
+                            str += " world"
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Swift 1.x 的历史遗留问题
+
+                            - `let` 和 `var` 其实来自于 Objective-C 时代的 `mutable` 与 `runtime` 环境
+                            - 不再存在指针，但 CocoaTouch 当中 依然有大量接口使用指针
+                            - 依然保留 NS 开头的数据类型，且不能与 Swift 自身的数据类型互相转换
+                            
+                            ## Called as Objective-C without C
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # 然而……它开源了……
+
+                            WWDC2015 宣布 Swift 开源！
+                        </script>
+                    </section>
+                </section>
+
+                <!-- HW -->
+                <section data-markdown data-background="#242424">
+                    <script type="text/template">
+                        ### Swift 2.0 发布
+                        
+                        - Apple 开始将 Objective-C 的代码用 Swift 改写
+                        
+                          原有的 NS 类型慢慢消失
+
+                        - 去除更多的 C-lang 痕迹
+                        
+                          如用`print`替代了`println`等等
+
+                        - 更完善的句点式表达
+                        
+                          如：
+                          ```
+                          var array = ["a", "b", "c", "d", "e"]
+                          contains(array, "a") => array.contains("a")
+                          ```
+
+                        - 加入更完善的异常管理
+                        
+                          加入`try...catch...`模式，增加`ErrorType`处理
+
+                        - 加入协议的`extension`!!!
+
+                    </script>
+                </section>
+                <section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ## 面向对象的编程 => 面向协议的编程
+
+                            举个栗子
+                        </script>
+                    </section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            大量 API 命名改变，第一个参数要求要有显式的 Label
+                            ```
+                            "RW".writeToFile("filename", atomically: true, encoding: NSUTF8StringEncoding) // 2.0
+
+                            "RW".write(toFile: "filename", atomically: true, encoding: NSUTF8StringEncoding) // 3.0
+
+                            SKAction.rotateByAngle(CGFloat(M_PI_2), duration: 10) // 2.0
+
+                            SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 10) // 3.0
+
+                            let blue = UIColor.blueColor() // 2.0
+
+                            let blue = UIColor.blue() // 3.0
+
+                            let min = numbers.minElement() // 2.0
+
+                            let min = numbers.min() // 3.0
+
+                            attributedString.appendAttributedString(anotherString) //2.0
+
+                            attributedString.append(anotherString) // 3.0
+
+                            names.insert("Jane", atIndex: 0) // 2.0
+
+                            names.insert("Jane", at: 0) // 3.0
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            如果没有label，必须声明`_`
+                            ```
+                            override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { ... } // 2.0
+
+                            override func didMoveToView(_ view: SKView) { ... } // 3.0
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            `enum`的 case 书写规范，全部使用驼峰式命名
+                            ```
+                            // 2.0
+                            enum Operation {
+                                case Constant(Double)
+                                case UnaryOperation(Double -> Double)
+                                case BinaryOperation((Double, Double) -> Double)
+                                case Equals
+                            }
+
+                            // 3.0
+                            enum Operation {
+                                case constant(Double)
+                                case unaryOperation((Double) -> Double)
+                                case binaryOperation((Double, Double) -> Double)
+                                case equals
+                            }
+
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            各类方法命名更规范具体，动词改值，名词返回值
+                            ```
+                            customArray.enumerate()
+
+                            customArray.enumerated()
+
+                            customArray.reverse()
+
+                            customArray.reversed()
+
+                            customArray.sort() // changed from .sortInPlace()
+
+                            customArray.sorted()
+
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            终于支持静态方法（类方法）的调用！
+                            ```
+                            class Demo {
+                                static func helloWorld() {;}
+                            }
+
+                            Demo.helloWorld()
+
+                            let demo = Demo()
+                            demo.Self.helloWorld()
+
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 3.0 发布
+
+                            - 移除了所有 `NS` 前缀的类型，新增`Calendar`、`Date`
+                            - 新增包管理工具，基本具备一个现代编程语言的架构
+                        </script>
+                    </section>
+                    <section data-markdown data-background="#242424">
+                        <script type="text/template">
+                            ### Swift 发展方向
+
+                            - 命名规范、易读
+                            - 摆脱 Objective-C 和 CocoaTouch 的历史遗留问题
+                            - 脱离 macOS 和 iOS 环境，跨平台
+                            - 积极践行面向接口的程序设计理念
+                        </script>
+                    </section>
+                </section>
+
+                <!-- Author -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ![avatar](http://7xi7oz.com1.z0.glb.clouddn.com/avatar.jpg)
+                        ### **陈小紫 / Cassius Chen**
+
+                        UI/UX Designer, Rubyist, Web Developer
+
+                        <small>[Github](https://github.com/cassiuschen)  /  [Blog](http://cassiuschen.me)  /  [Dribbble](https://dribbble.com/cassiuschen)</small>
+
+                        <br/>
+                        <small>Swift Evolution</small>
+                    </script>
+                </section>
+
+
+
+            </div>
+
+        </div>
+
+        <script src="./lib/js/head.min.js"></script>
+        <script src="./js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'concave', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: './plugin/highlight/highlight.js', async: true, condition: function() { return true; }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: './plugin/zoom-js/zoom.js', async: true },
+                    { src: './plugin/notes/notes.js', async: true }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>

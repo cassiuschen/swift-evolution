@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Button</title>
+</head>
+<body>
+	<a href="" class="btn">1</a>
+	<style>
+		.btn {
+			margin: 50px auto;
+			display:block;
+			font-size: 22px;
+			width: 20px;
+			text-align: center;
+			padding: 0px 10px;
+			background-color: red;
+			border-radius: 40px;
+			color: white;
+			animation: bling 1.5s infinite;
+			transition: all 1.28s ease-in-out;	
+		}
+
+		@keyframes bling {
+			0% {box-shadow: 0 0 0 transparent;}
+			
+			50% {box-shadow: 0 0 10px red;}
+			100% {box-shadow: 0 0 0 transparent;}
+		}
+
+		.btn:hover {
+			background-color: red;
+			box-shadow: 0 0 15px #444;
+			color: green;
+			transform: translate(20px,90px);
+		}
+
+		 a, a:link, a:hover, a:active {
+		 	text-decoration: none;
+		 }
+	</style>
+</body>
+</html>

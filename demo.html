@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>大新闻</title>
+	<script src="./jq.js" rel="application/javascript"></script>
+</head>
+<body>
+	<h2>CSS 属性：</h2>
+	<input type="text" id="css">
+
+	<img src="./huangyi.png" alt="">
+	<style>
+		html, body {
+			padding: 0;
+			margin: 0;
+			-webkit-tap-highlight-color: transparent;
+			width: 100%;
+		}
+		h2 {
+			color:#3b3b3b;
+			display: block;
+			padding-bottom: 0;
+			margin-bottom: 0;
+			font-size: 22px;
+			padding-left: 25px;
+		}
+		input {
+			width: 100%;
+			border: 0px solid transparent;
+			font-size: 22px;
+			padding: 15px;
+			padding-left: 25px;
+			color:#555;
+			-webkit-appearance: none !important;
+		}
+		input:active, input:focus {
+			-webkit-appearance: none !important;
+		}
+
+		img {
+			width: 300px;
+			margin: 150px auto;
+			display: block;
+			transition: all 3s;
+		}
+
+	</style>
+	<script>
+		$(document).ready(function(){
+			var el = $('img'),
+				input = $('input');
+			var changeStyle = function() {
+				el.attr('style', input.val());
+				console.log(input.val());
+			}
+			input.bind('input propertychange', changeStyle);
+		})
+		
+	</script>
+</body>
+</html>
